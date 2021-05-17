@@ -18,18 +18,18 @@ void floyd()
     {
       for (int j = 1; j <= n; j++)
       {
-        if (dist[i][k] + dist[k][j] > dist[i][j])
-          continue;
+        if (dist[i][k] + dist[k][j] < dist[i][j])
+        {
+          dist[i][j] = dist[i][k] + dist[k][j];
 
-        dist[i][j] = dist[i][k] + dist[k][j];
+          vector<int> tempVec = path[k][j];
 
-        vector<int> tempVec = path[k][j];
+          path[i][j].clear();
+          path[i][j] = path[i][k];
 
-        path[i][j].clear();
-        path[i][j] = path[i][k];
-
-        for (int m = 1; m < tempVec.size(); m++) // k가 중복되므로, m = 1부터 시작한다.
-          path[i][j].push_back(tempVec[m]);
+          for (int m = 1; m < tempVec.size(); m++) // k가 중복되므로, m = 1부터 시작한다.
+            path[i][j].push_back(tempVec[m]);
+        }
       }
     }
   }
@@ -56,6 +56,8 @@ int main()
     dist[start][end] = min(dist[start][end], cost);
   }
 
+  floyd();
+
   for (int i = 1; i <= n; i++)
   {
     for (int j = 1; j <= n; j++)
@@ -69,6 +71,11 @@ int main()
   {
     for (int j = 1; j <= n; j++)
     {
+      if (!dist[i][j])
+      {
+        printf("0\n");
+        continue;
+      }
       printf("%d ", path[i][j].size());
       for (int k = 0; k < path[i][j].size(); k++)
       {
