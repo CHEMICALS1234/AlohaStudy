@@ -51,26 +51,31 @@ class SegmentTree {
            sum(mid + 1, end, left, right, node * 2 + 1);
   }
 
-  void update(int start, int end, int index, long long diff, int node = 1) {
+  void update(long long* arr, int start, int end, int index, long long diff,
+              int node = 1) {
     if (index < start || index > end) return;
 
     tree[node] += diff;
 
+    if (start == end) arr[start] += diff;
+
     if (start != end) {
       int mid = (start + end) / 2;
-      update(start, mid, index, diff, node * 2);
-      update(mid + 1, end, index, diff, node * 2 + 1);
+      update(arr, start, mid, index, diff, node * 2);
+      update(arr, mid + 1, end, index, diff, node * 2 + 1);
     }
   }
-  void update(int index, long long diff, int node = 1) {
+  void update(long long* arr, int index, long long diff, int node = 1) {
     if (index < start || index > end) return;
 
     tree[node] += diff;
 
+    if (start == end) arr[start] += diff;
+
     if (start != end) {
       int mid = (start + end) / 2;
-      update(start, mid, index, diff, node * 2);
-      update(mid + 1, end, index, diff, node * 2 + 1);
+      update(arr, start, mid, index, diff, node * 2);
+      update(arr, mid + 1, end, index, diff, node * 2 + 1);
     }
   }
 
@@ -86,16 +91,29 @@ class SegmentTree {
 
 int main() {
   int n, m, k;
-  n = 8;
+  scanf("%d %d %d", &n, &m, &k);
 
-  long long arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+  long long arr[ARR_MAX];
+
+  for (int i = 1; i <= n; i++) {
+    scanf("%lld", &arr[i]);
+  }
 
   SegmentTree s(n);
   s.init(arr);
 
-  // s.printTree();
+  for (int i = 0; i < m + k; i++) {
+    int a, b;
+    long long c;
 
-  cout << s.sum(3, 7);
+    scanf("%d %d %lld", &a, &b, &c);
+
+    if (a == 1) {
+      s.update(arr, b, c - arr[b]);
+    } else {
+      printf("%lld\n", s.sum(b, c));
+    }
+  }
 
   return 0;
 }
