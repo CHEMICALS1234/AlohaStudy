@@ -18,7 +18,9 @@ int main() {
   while (t--) {
     int a, b;
     scanf("%d %d", &a, &b);
-    printf("%d\n", modPow(a, b, mod));
+    int res = modPow(a, b, mod);
+    if (res == 0) res = 10;
+    printf("%d\n", res);
   }
   return 0;
 }
