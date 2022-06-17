@@ -18,7 +18,8 @@ void DFS(int start, vector<bool>& visited) {
 
   for (int i = 0; i < adj[start].size(); i++) {
     int next = adj[start][i];
-    if (visited[next]) continue;
+    if (visited[next])
+      continue;
     DFS(next, visited);
   }
 }
@@ -34,7 +35,8 @@ void BFS(int start, vector<bool>& visited) {
     q.pop();
 
     for (auto& node : adj[curr]) {
-      if (visited[node]) continue;
+      if (visited[node])
+        continue;
       visited[node] = true;
       q.push(node);
     }
