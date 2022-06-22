@@ -1,5 +1,5 @@
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -44,10 +44,11 @@ int main() {
     ll x, y;
     char c;
     cin >> x >> y >> c;
-    if (c == 'Y') convexHull.push_back(Point(x, y));
+    if (c == 'Y')
+      convexHull.push_back(Point(x, y));
   }
   sort(convexHull.begin(), convexHull.end(), compX);
-  sort(convexHull.begin(), convexHull.end(), compCCW);
+  sort(convexHull.begin() + 1, convexHull.end(), compCCW);
 
   int idx = 0;
   for (int i = convexHull.size() - 1; i > 0; i--) {
