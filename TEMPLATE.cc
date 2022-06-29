@@ -13,6 +13,7 @@ using ll = long long;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
 using vll = vector<long long>;
+using vpi = vector<pair<int, int>>;
 
 int main() {
   FAST;
