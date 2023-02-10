@@ -14,33 +14,42 @@ using vll = vector<ll>;
 #define INF 2e18
 #define MOD 1'000'000'007
 
-#define MAXSIZE 55
+#define MAX 55
 
+ll dp[MAX];  // dp[i]: MSB가 i번째 bit 일때의 1 개수 누적합.
 ll A, B;
-vll dp(MAXSIZE);
 
-ll getNum(ll n) {
-  ll ans = n & 1;
-  for (int i = MAXSIZE - 1; i > 0; i--) {
-    if (n & (1LL << 1)) {
-      ans += dp[i - 1];
+void buildTable() {
+    dp[0] = 1;
+
+    for (int i = 1; i < MAX; i++) {
+        dp[i] = 2 * dp[i - 1] + (1LL << i);
     }
-  }
+}
+
+ll getSum(ll x) {
+    ll ans = x & 1;  // 걍 홀짝 check.
+
+    for (int i = MAX - 1; i > 0; i--) {
+        if (x & (1LL << i)) {
+            ans += dp[i - 1] + (x - (1LL << i) + 1);
+            x -= (1LL << i);
+        }
+    }
+
+    return ans;
 }
 
 int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  cout.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-  cin >> A >> B;
+    buildTable();
 
-  dp[0] = 1;
-  for (int i = 1; i < 55; i++) {
-    dp[i] = dp[i - 1] + dp[i - 1] + (1LL << i);
-  }
+    cin >> A >> B;
 
-  cout << getNum(B) - getNum(A - 1) << endl;
+    cout << getSum(B) - getSum(A - 1) << endl;
 
-  return 0;
+    return 0;
 }
